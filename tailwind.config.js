@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+﻿/** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
@@ -8,11 +8,9 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        ivory: '#f7f7f2',
-        teal: '#1a9aaa',
-        coral: '#ff6b57',
-        slate: '#111827',
-        mist: '#d9f3f4',
+        cream: '#f1ede9',
+        brown: '#504c44',
+        black: '#000000',
         white: '#ffffff',
       },
       letterSpacing: {

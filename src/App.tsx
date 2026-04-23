@@ -1,54 +1,28 @@
-import { useState, useEffect } from 'react';
+ï»¿import { useState, useEffect } from 'react';
 import {
   ChevronDown,
-  Target,
-  Mail,
-  Phone,
-  Menu,
-  Linkedin,
-  X,
   Cloud,
-  Server,
   Code,
+  ExternalLink,
+  Github,
+  Lightbulb,
+  Linkedin,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Rocket,
+  Server,
+  TrendingUp,
+  Users,
+  X,
 } from 'lucide-react';
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero');
+  const [isVisible, setIsVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-
-    const handleScroll = () => {
-      const sections = ['hero', 'summary', 'experience', 'projects', 'skills', 'education', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const summary =
     'Applied AI/ML Engineer with 4+ years of experience building and deploying production-grade machine learning and LLM systems. Specialized in RAG architectures, multimodal AI pipelines, and scalable MLOps infrastructure. Proven track record of reducing inference costs, improving model reliability, and delivering real-time AI solutions in cloud and hybrid environments.';
@@ -90,8 +64,8 @@ function App() {
   const projects = [
     {
       title: 'Premagic Replica',
-      subtitle: 'AI-Based Event Photo Management Platform',
-      category: 'Project',
+      subtitle: 'Java, Spring Boot, React, AWS, Docker, Kubernetes, Terraform',
+      category: 'AI & Cloud Platform',
       introduction:
         'Built an AI-based event photo management platform with a cloud-native architecture designed for secure, scalable image ingestion, processing, and search.',
       problem:
@@ -113,56 +87,40 @@ function App() {
       ],
       conclusion:
         'The project demonstrates end-to-end ownership across backend systems, AI integration, cloud infrastructure, and security for real-world event media workflows.',
-      technologies:
-        'Java, Spring Boot, React, AWS (S3, Lambda, Rekognition, RDS), Docker, Kubernetes, Terraform',
+      link: '',
     },
   ];
 
   const skillCategories = [
     {
-      icon: Cloud,
+      icon: Code,
       title: 'Machine Learning & AI',
-      skills: [
-        'PyTorch',
-        'TensorFlow',
-        'Scikit-learn',
-        'LLMs',
-        'Generative AI',
-        'Multimodal AI',
-        'Prompt Engineering',
-        'Fine-tuning',
-        'RAG',
-      ],
+      skills: ['PyTorch', 'TensorFlow', 'Scikit-learn', 'LLMs', 'Generative AI', 'Multimodal AI', 'Prompt Engineering', 'Fine-tuning', 'RAG'],
     },
     {
-      icon: Server,
+      icon: Rocket,
       title: 'LLM & AI Frameworks',
       skills: ['LangChain', 'OpenAI API', 'Hugging Face', 'Vector Databases (FAISS, Pinecone)'],
     },
     {
-      icon: Code,
+      icon: TrendingUp,
       title: 'MLOps & Infrastructure',
       skills: ['Docker', 'Kubernetes', 'CI/CD', 'MLflow', 'Airflow', 'Model Monitoring', 'Model Validation'],
     },
     {
-      icon: Target,
-      title: 'Backend & Cloud',
-      skills: [
-        'Django',
-        'FastAPI',
-        'REST APIs',
-        'Microservices',
-        'Distributed Systems',
-        'Python',
-        'SQL',
-        'JavaScript/TypeScript',
-        'AWS/Azure',
-        'Hybrid Cloud',
-        'Data Pipelines',
-        'ETL',
-        'PostgreSQL',
-        'MongoDB',
-      ],
+      icon: Cloud,
+      title: 'Backend & Systems',
+      skills: ['Django', 'FastAPI', 'REST APIs', 'Microservices', 'Distributed Systems'],
+    },
+    {
+      icon: Users,
+      title: 'Languages & Cloud',
+      skills: ['Python', 'SQL', 'JavaScript/TypeScript', 'AWS', 'Azure', 'Hybrid Cloud', 'Data Pipelines', 'ETL'],
+    },
+    {
+      icon: Server,
+      title: 'Databases',
+      skills: ['PostgreSQL', 'MongoDB'],
     },
   ];
 
@@ -170,10 +128,67 @@ function App() {
     {
       school: 'California State University, Chico',
       degree: 'Master of Science in Computer Science',
-      location: 'USA',
+      location: 'California, USA',
       dates: 'Aug 2024 - May 2026',
-      details: '',
+      details: 'Graduate studies focused on computer science foundations and advanced software systems.',
     },
+  ];
+
+  const papers: Array<{ title: string; publication: string; year: string; link: string }> = [];
+  const certifications: Array<{ title: string; platform: string; description: string; link: string }> = [];
+
+  useEffect(() => {
+    setIsVisible(true);
+
+    const handleScroll = () => {
+      const sections = [
+        'hero',
+        'summary',
+        'experience',
+        'projects',
+        'skills',
+        'education',
+        ...(papers.length > 0 ? ['papers'] : []),
+        ...(certifications.length > 0 ? ['certifications'] : []),
+        'contact',
+      ];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [papers.length, certifications.length]);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const navItems = [
+    { id: 'hero', label: 'Home' },
+    { id: 'summary', label: 'Summary' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'education', label: 'Education' },
+    ...(papers.length > 0 ? [{ id: 'papers', label: 'Papers' }] : []),
+    ...(certifications.length > 0 ? [{ id: 'certifications', label: 'Certificate' }] : []),
+    { id: 'contact', label: 'Contact' },
   ];
 
   return (
@@ -186,46 +201,25 @@ function App() {
             </div>
 
             <div className="hidden md:flex space-x-8">
-              {[
-                { id: 'hero', label: 'Home' },
-                { id: 'summary', label: 'Summary' },
-                { id: 'experience', label: 'Experience' },
-                { id: 'projects', label: 'Projects' },
-                { id: 'skills', label: 'Skills' },
-                { id: 'education', label: 'Education' },
-                { id: 'contact', label: 'Contact' },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-light tracking-wide transition-colors duration-300 ${
-                    activeSection === item.id ? 'text-black font-medium' : 'text-brown hover:text-black'
-                  }`}
+                  className={`text-sm font-light tracking-wide transition-colors duration-300 ${activeSection === item.id ? 'text-black font-medium' : 'text-brown hover:text-black'}`}
                 >
                   {item.label}
                 </button>
               ))}
             </div>
 
-            <button
-              className="md:hidden text-black"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
+            <button className="md:hidden text-black" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
 
           {mobileMenuOpen && (
             <div className="md:hidden mt-4 flex flex-col space-y-4 border-t border-brown/20 pt-4">
-              {[
-                { id: 'hero', label: 'Home' },
-                { id: 'summary', label: 'Summary' },
-                { id: 'experience', label: 'Experience' },
-                { id: 'projects', label: 'Projects' },
-                { id: 'skills', label: 'Skills' },
-                { id: 'education', label: 'Education' },
-                { id: 'contact', label: 'Contact' },
-              ].map((item) => (
+              {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => {
@@ -244,11 +238,7 @@ function App() {
 
       <section id="hero" className="pt-32 pb-20 bg-cream">
         <div className="max-w-6xl mx-auto px-6">
-          <div
-            className={`text-center transform transition-all duration-1000 ${
-              isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-            }`}
-          >
+          <div className={`text-center transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <div className="mb-12">
               <img
                 src="images/image.png"
@@ -256,7 +246,7 @@ function App() {
                 className="w-36 h-36 rounded-full mx-auto mb-6 object-cover border-4 border-brown/30 shadow-lg"
               />
             </div>
-            <h1 className="text-3xl md:text-6xl font-display text-black mb-6 tracking-wide">
+            <h1 className="text-5xl md:text-6xl font-display text-black mb-6 tracking-wide">
               NAYANA NAGARAJAPPA
             </h1>
             <div className="text-lg text-brown mb-2 font-light tracking-widest">
@@ -269,12 +259,26 @@ function App() {
             <p className="text-lg text-brown mb-10 max-w-4xl mx-auto leading-relaxed font-light">
               {summary}
             </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <button
+                onClick={() => scrollToSection('experience')}
+                className="bg-black text-white px-10 py-4 font-light tracking-wide hover:bg-brown transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                VIEW EXPERIENCE
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="border border-black text-black px-10 py-4 font-light tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+              >
+                CONTACT
+              </button>
+            </div>
           </div>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16 text-center">
             {[
-              { label: 'EXPERIENCE', value: '4+ YRS', detail: 'AI/ML Systems' },
+              { label: 'EXPERIENCE', value: '4+ YRS', detail: 'Production AI Systems' },
               { label: 'INFERENCE COST REDUCTION', value: '20%+', detail: 'Prompt Optimization' },
-              { label: 'MANUAL REVIEW REDUCTION', value: '40%+', detail: 'Multimodal Monitoring' },
+              { label: 'MANUAL REVIEW REDUCTION', value: '40%+', detail: 'Multimodal Workflows' },
             ].map((stat, index) => (
               <div key={index} className="bg-white p-6 rounded-sm shadow-sm border border-brown/10">
                 <div className="text-xs tracking-widest text-brown/70 mb-2">{stat.label}</div>
@@ -296,36 +300,33 @@ function App() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-5xl font-display text-black mb-8 tracking-wide">SUMMARY</h2>
-            <p className="text-lg text-brown max-w-3xl mx-auto font-light">{summary}</p>
+            <p className="text-lg text-brown max-w-3xl mx-auto font-light">
+              Applied AI engineering experience across LLM systems, multimodal workflows, MLOps infrastructure, model evaluation, and production deployment.
+            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-10">
             {[
               {
-                icon: Cloud,
+                icon: Code,
                 title: 'Applied AI Systems',
-                detail:
-                  'Built and deployed production-grade machine learning and LLM systems focused on reliability, scalability, and real-world business impact.',
+                detail: 'Built production-grade machine learning and LLM systems with a focus on practical deployment, reliability, and business impact.',
               },
               {
-                icon: Server,
+                icon: Rocket,
                 title: 'LLM & RAG',
-                detail:
-                  'Specialized in RAG architectures, multimodal workflows, prompt engineering, and evaluation of modern foundation models for production use.',
+                detail: 'Worked across RAG architectures, multimodal pipelines, prompt engineering, model benchmarking, and evaluation workflows.',
               },
               {
-                icon: Target,
+                icon: Lightbulb,
                 title: 'MLOps Delivery',
-                detail:
-                  'Improved model reliability, reduced inference costs, and delivered real-time AI solutions across cloud and hybrid environments.',
+                detail: 'Improved inference efficiency, strengthened observability, and delivered scalable AI solutions in cloud and hybrid environments.',
               },
             ].map((card, index) => (
               <div key={index} className="bg-cream p-8 rounded-sm shadow-sm border border-brown/10 text-center">
                 <div className="w-14 h-14 bg-black mx-auto mb-6 flex items-center justify-center">
                   <card.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl font-display text-black mb-4 tracking-wide">
-                  {card.title.toUpperCase()}
-                </h3>
+                <h3 className="text-xl font-display text-black mb-4 tracking-wide">{card.title.toUpperCase()}</h3>
                 <p className="text-brown leading-relaxed font-light">{card.detail}</p>
               </div>
             ))}
@@ -338,6 +339,9 @@ function App() {
           <div className="text-center mb-20">
             <h2 className="text-5xl font-display text-black mb-8 tracking-wide">WORK EXPERIENCE</h2>
             <div className="w-16 h-0.5 bg-brown mx-auto mb-8"></div>
+            <p className="text-lg text-brown max-w-3xl mx-auto font-light">
+              Experience building AI workflows and ML platforms across startup and enterprise environments.
+            </p>
           </div>
           <div className="space-y-10">
             {experience.map((role, index) => (
@@ -348,13 +352,13 @@ function App() {
                     <p className="text-brown font-medium">{role.company}</p>
                   </div>
                   <div className="text-sm text-brown/80 font-light mt-2 md:mt-0">
-                    {role.location} · {role.dates}
+                    {role.location} | {role.dates}
                   </div>
                 </div>
                 <ul className="space-y-3">
                   {role.highlights.map((highlight, i) => (
                     <li key={i} className="text-brown leading-relaxed font-light flex items-start">
-                      <span className="text-brown mr-3">•</span>
+                      <span className="text-brown mr-3">â€¢</span>
                       <span>{highlight}</span>
                     </li>
                   ))}
@@ -370,6 +374,9 @@ function App() {
           <div className="text-center mb-20">
             <h2 className="text-5xl font-display text-black mb-8 tracking-wide">PROJECTS</h2>
             <div className="w-16 h-0.5 bg-brown mx-auto mb-8"></div>
+            <p className="text-lg text-brown max-w-2xl mx-auto font-light">
+              Selected work across AI-powered product systems, cloud infrastructure, and applied machine learning.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
@@ -387,12 +394,23 @@ function App() {
                 <h3 className="text-xl font-display text-black mb-3 tracking-wide leading-tight">
                   {project.title}
                 </h3>
-                <p className="text-sm text-brown mb-4 font-light">{project.subtitle}</p>
+                <p className="text-sm text-brown mb-4 font-light">
+                  {project.subtitle}
+                </p>
                 <p className="text-brown leading-relaxed font-light text-sm line-clamp-3">
                   {project.introduction}
                 </p>
               </div>
             ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-brown font-light">
+              Interested in implementation details or architecture notes?
+              <button onClick={() => scrollToSection('contact')} className="text-black ml-1 font-regular italic">
+                Reach out for more project information.
+              </button>
+            </p>
           </div>
         </div>
       </section>
@@ -404,10 +422,7 @@ function App() {
               <h2 className="text-2xl font-display text-black tracking-wide">
                 {projects[selectedProject].title}
               </h2>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="text-brown hover:text-black transition-colors"
-              >
+              <button onClick={() => setSelectedProject(null)} className="text-brown hover:text-black transition-colors">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -448,7 +463,7 @@ function App() {
                 <ul className="space-y-2">
                   {projects[selectedProject].methodology.map((item, index) => (
                     <li key={index} className="text-brown leading-relaxed font-light flex items-start">
-                      <span className="text-brown mr-3">•</span>
+                      <span className="text-brown mr-3">â€¢</span>
                       {item}
                     </li>
                   ))}
@@ -460,7 +475,7 @@ function App() {
                 <ul className="space-y-2">
                   {projects[selectedProject].results.map((item, index) => (
                     <li key={index} className="text-brown leading-relaxed font-light flex items-start">
-                      <span className="text-brown mr-3">•</span>
+                      <span className="text-brown mr-3">â€¢</span>
                       {item}
                     </li>
                   ))}
@@ -474,12 +489,20 @@ function App() {
                 </p>
               </div>
 
-              <div>
-                <h3 className="text-lg font-display text-black mb-3 tracking-wide">TECHNOLOGIES</h3>
-                <p className="text-brown leading-relaxed font-light">
-                  {projects[selectedProject].technologies}
-                </p>
-              </div>
+              {projects[selectedProject].link && (
+                <div>
+                  <h3 className="text-lg font-display text-black mb-3 tracking-wide">LINK</h3>
+                  <a
+                    href={projects[selectedProject].link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brown leading-relaxed font-light hover:text-black transition-colors hover:underline inline-flex items-center"
+                  >
+                    View Project
+                    <ExternalLink className="w-4 h-4 ml-2 inline-block" />
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -490,17 +513,18 @@ function App() {
           <div className="text-center mb-20">
             <h2 className="text-5xl font-display text-black mb-8 tracking-wide">SKILLS</h2>
             <div className="w-16 h-0.5 bg-brown mx-auto mb-8"></div>
+            <p className="text-lg text-brown max-w-2xl mx-auto font-light">
+              Applied AI, LLM systems, infrastructure, backend engineering, and cloud technologies.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
             {skillCategories.map((category, index) => (
               <div key={index} className="text-center">
                 <div className="w-16 h-16 bg-black mx-auto mb-8 flex items-center justify-center">
                   <category.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-display text-black mb-6 tracking-wide">
-                  {category.title.toUpperCase()}
-                </h3>
+                <h3 className="text-lg font-display text-black mb-6 tracking-wide">{category.title.toUpperCase()}</h3>
                 <ul className="space-y-3">
                   {category.skills.map((skill, skillIndex) => (
                     <li key={skillIndex} className="text-sm text-brown font-light">
@@ -529,31 +553,97 @@ function App() {
                     <p className="text-brown font-medium">{edu.degree}</p>
                   </div>
                   <div className="text-sm text-brown/80 font-light mt-2 md:mt-0">
-                    {edu.location} · {edu.dates}
+                    {edu.location} | {edu.dates}
                   </div>
                 </div>
+                <p className="text-brown leading-relaxed font-light">
+                  {edu.details}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {papers.length > 0 && (
+        <section id="papers" className="py-24 bg-cream">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl font-display text-black mb-6 tracking-wide">PAPERS PUBLISHED</h2>
+              <div className="w-16 h-0.5 bg-brown mx-auto mb-6"></div>
+              <p className="text-lg text-brown max-w-2xl mx-auto font-light">
+                Research and publications in AI, ML systems, and applied software engineering.
+              </p>
+            </div>
+            <div className="space-y-8">
+              {papers.map((paper, index) => (
+                <div key={index} className="bg-white p-8 rounded-sm shadow-sm border border-brown/10">
+                  <h3 className="text-xl font-display text-black tracking-wide mb-2">{paper.title}</h3>
+                  <p className="text-brown font-medium mb-2">{paper.publication} | {paper.year}</p>
+                  <a
+                    href={paper.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brown font-light hover:text-black transition-colors hover:underline inline-flex items-center"
+                  >
+                    View Paper <ExternalLink className="w-4 h-4 ml-2 inline-block" />
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {certifications.length > 0 && (
+        <section id="certifications" className="py-24 bg-white">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl font-display text-black mb-6 tracking-wide">CERTIFICATIONS</h2>
+              <div className="w-16 h-0.5 bg-brown mx-auto mb-6"></div>
+            </div>
+            <div className="space-y-8">
+              {certifications.map((cert, index) => (
+                <div key={index} className="bg-cream p-8 rounded-sm shadow-sm border border-brown/10">
+                  <h3 className="text-2xl font-display text-black tracking-wide">{cert.title}</h3>
+                  <p className="text-brown font-medium">{cert.platform}</p>
+                  <p className="text-brown leading-relaxed font-light">{cert.description}</p>
+                  <a href={cert.link} target="_blank" rel="noopener noreferrer" className="text-brown leading-relaxed font-light hover:text-black transition-colors hover:underline">
+                    View Certificate <ExternalLink className="w-4 h-4 ml-2 inline-block" />
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section id="contact" className="py-24 bg-black text-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-5xl font-display mb-8 tracking-wide">CONTACT</h2>
             <div className="w-16 h-0.5 bg-brown mx-auto mb-8"></div>
+            <p className="text-xl text-white/80 max-w-3xl mx-auto font-light">
+              Open to AI engineering, LLM systems, and MLOps-focused opportunities.
+            </p>
           </div>
 
           <div className="flex flex-col items-center space-y-8 max-w-md mx-auto">
             <div className="flex items-center">
               <Phone className="w-6 h-6 text-brown mr-6" />
-              <a
-                href="tel:+15306307166"
-                className="text-white/80 font-light hover:text-white transition-colors"
-              >
+              <a href="tel:+15306307166" className="text-white/80 font-light hover:text-white transition-colors">
                 +1 (530) 630-7166
               </a>
+            </div>
+            <div className="flex items-center">
+              <Mail className="w-6 h-6 text-brown mr-6" />
+              <a href="mailto:nnagarajappa027@gmail.com" className="text-white/80 font-light hover:text-white transition-colors">
+                nnagarajappa027@gmail.com
+              </a>
+            </div>
+            <div className="flex items-center">
+              <MapPin className="w-6 h-6 text-brown mr-6" />
+              <span className="text-white/80 font-light">California, USA</span>
             </div>
             <div className="flex items-center">
               <Linkedin className="w-6 h-6 text-brown mr-6" />
@@ -567,13 +657,8 @@ function App() {
               </a>
             </div>
             <div className="flex items-center">
-              <Mail className="w-6 h-6 text-brown mr-6" />
-              <a
-                href="mailto:nnagarajappa027@gmail.com"
-                className="text-white/80 font-light hover:text-white transition-colors"
-              >
-                nnagarajappa027@gmail.com
-              </a>
+              <Github className="w-6 h-6 text-brown mr-6" />
+              <span className="text-white/80 font-light">GitHub</span>
             </div>
           </div>
         </div>
@@ -581,7 +666,9 @@ function App() {
 
       <footer className="bg-brown text-white/80 py-8">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="font-light tracking-wide">© 2025 Nayana Nagarajappa · AI/ML Engineering.</p>
+          <p className="font-light tracking-wide">
+            Â© 2026 Nayana Nagarajappa | AI/ML Engineering & MLOps
+          </p>
         </div>
       </footer>
     </div>
