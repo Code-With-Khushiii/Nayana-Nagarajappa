@@ -4,18 +4,20 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'display': ['Baskervville', 'serif'],
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Baskervville', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        cream: '#f1ede9',
-        brown: '#504c44',
-        black: '#000000',
+        ivory: '#f7f7f2',
+        teal: '#1a9aaa',
+        coral: '#ff6b57',
+        slate: '#111827',
+        mist: '#d9f3f4',
         white: '#ffffff',
       },
       letterSpacing: {
         widest: '.25em',
-      }
+      },
     },
   },
   plugins: [],
